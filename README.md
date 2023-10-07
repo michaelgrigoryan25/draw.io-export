@@ -1,23 +1,51 @@
 # draw.io-export
 
-Convert [draw.io](https://app.diagrams.net/) xml file (usually `*.drawio`) to `pdf`/`png` within command line.
+This repository is a fork of [draw.io-export](https://github.com/b1f6c1c4/draw.io-export) maintained by [b1f6c1c4](https://github.com/b1f6c1c4), with additional features such as batch conversion with glob pattern matching and the ability for supplying multiple `.drawio` files.
 
-Works nicely with `make` and/or `latexmk`. Useful if you are writing a paper or thesis with many figures.
+___
 
-## Usage with `npm`
+Convert [draw.io](https://app.diagrams.net/) XML files (usually `*.drawio`) to `PDF`/`PNG` within the command line.
+
+<!-- Works nicely with `make` and/or `latexmk`. Useful if you are writing a paper or thesis with many figures. -->
+
+## Installing Locally
 
 ```bash
-npm install --global draw.io-export
-drawio <source.drawio> -o <dest.pdf>
-drawio <source.drawio> -o <dest.png>
+git clone --depth=1 https://github.com/michaelgrigoryan25/draw.io-export
+npm install --global ./draw.io-export
+drawio --help
 ```
 
-## Supported formats `-F|--fmt`
+## Example Usage
+
+### Default behavior
+
+When glob pattern matching is disabled, you can directly supply the paths of the files, and they will be exported accordingly:
+
+```bash
+drawio file1.drawio file2.drawio
+```
+
+### With glob pattern matching
+
+When glob pattern matching is enabled the outputs of the files will have the same name as the original files and will be postfixed with `.exported.{format}`. The files will be exported in the same directory that the drawio files were found from:
+
+```bash
+drawio -G "./*.drawio" "../*.drawio"
+```
+
+## Flags
+
+### Glob conversion `-G|--glob`
+
+This flag enables specifying glob patterns for matching drawio files. By default, this flag is set to `false`. You have to explicitly specify it to use glob patterns.
+
+### Supported formats `-F|--fmt`
 
 - If not specified, automatically detect `png` or `pdf`
 - `png` Only the first page is used
 - `pdf` Only the first page is used
-- `cat-pdf` All pages used, concatenated
+<!-- - `cat-pdf` All pages used, concatenated
 - `split-png` All pages used, separate files with name `<dest><#>.png`
 - `split-pdf` All pages used, separate files with name `<dest><#>.pdf`
 - `split-index-png` Alias for `split-png`
@@ -25,16 +53,4 @@ drawio <source.drawio> -o <dest.png>
 - `split-id-png` All pages used, separate files with name `<dest><diagram-id>.png`
 - `split-id-pdf` All pages used, separate files with name `<dest><diagram-id>.pdf`
 - `split-name-png` All pages used, separate files with name `<dest><page-name>.png`
-- `split-name-pdf` All pages used, separate files with name `<dest><page-name>.pdf`
-
-## Usage with Docker
-
-```bash
-docker run --rm \
-         -v <your folder with .drawio files>:/files \
-         b1f6c1c4/draw.io-export [<fmt>]
-```
-
-- All above formats are supported
-- If not specified, generate both `png` and `cat-pdf`
-
+- `split-name-pdf` All pages used, separate files with name `<dest><page-name>.pdf` -->
